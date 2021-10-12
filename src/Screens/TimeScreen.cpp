@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "NunitoSans_Bold28pt7b.h"
+#include "NunitoSans_Light28pt7b.h"
 #include "OptimaLTStd22pt7b.h"
 #include "OptimaLTStd7pt7b.h"
 #include "OptimaLTStd_Black32pt7b.h"
@@ -10,66 +12,69 @@
 
 using namespace Watchy;
 
-// inspired by http://rosettacode.org/wiki/Number_names#C.2B.2B
 const char *smallNumbers[] = {"",        "one",       "two",      "three",
                               "four",    "five",      "six",      "seven",
                               "eight",   "nine",      "ten",      "eleven",
-                              "twelve",  "thirteen",  "fourteen", "fifteen",
-                              "sixteen", "seventeen", "eighteen", "nineteen"};
+                              "twelve"};
+
 const char *decades[] = {"oh", nullptr, "twenty", "thirty", "forty", "fifty"};
 
-void rightJustify(const char *txt, uint16_t &yPos) {
-  int16_t x1, y1;
-  uint16_t w, h;
-  const uint8_t PADDING = 0; // how much padding to leave around text
-  display.getTextBounds(txt, 0, 0, &x1, &y1, &w, &h);
-  // right justify with padding
-  display.setCursor(200-x1-w-PADDING, yPos);
-  display.print(txt);  
-}
+const char *teensone [] =
+  {"ten", "eleven", "twelve", "thir", "four",
+   "fif", "six", "seven", "eight", "nine"};
+
+const char *teenstwo [] =
+  {"", "", "", "teen", "teen", "teen",
+   "teen", "teen", "teen", "teen", "teen"};
 
 void TimeScreen::show() {
   tm t;
   time_t tt = now();
   localtime_r(&tt, &t);
 
-  Watchy::display.fillScreen(bgColor);
+  display.fillScreen(bgColor);
 
   // hours
-  const GFXfont * font = OptimaLTStd_Black32pt7b;
-  display.setFont(font);
-  uint16_t yPos = font->yAdvance; // assume cursor(0,0)
-  rightJustify(smallNumbers[(t.tm_hour + 11) % 12 + 1], yPos);
+  display.setFont(&NunitoSans_Bold28pt7b);
+  display.setCursor(8, 42);
+  display.print(smallNumbers[(t.tm_hour + 11) % 12 + 1]);
 
-  // minutes
-  font = OptimaLTStd22pt7b;
-  display.setFont(font);
-  yPos += font->yAdvance;
-  const char *txt;
-  assert(t.tm_min >= 0 && t.tm_min < 60);
+  display.setFont(&NunitoSans_Light28pt7b);
+  display.setCursor(8, 89);
+
+  // exactly on the hour
   if (t.tm_min == 0) {
-    // 0: exactly on the hour
     if (t.tm_hour == 0) {
-      txt = "midnight";
+      display.print("midnight");
     } else if (t.tm_hour == 12) {
-      txt = "noon";
+      display.print("noon");
     } else {
-      txt = "o'clock";
+      display.print("o'clock");
     }
-  } else if (10 <= t.tm_min && t.tm_min < 20) {
-    // 10-19
-    txt = smallNumbers[t.tm_min];
-  } else if (t.tm_min <= 59) {
-    // 1-9, 20-59
-    rightJustify(decades[t.tm_min / 10], yPos);
-    yPos += font->yAdvance;
-    txt = smallNumbers[t.tm_min % 10];
   }
-  // ignore warning about txt not initialized, assert guarantees it will be
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-  rightJustify(txt, yPos);
-  #pragma GCC diagnostic pop
+  // minute is in the teens
+  else if (10 <= t.tm_min && t.tm_min < 20) {
+    display.print(teensone[t.tm_min-10]);
+  }
+  // minute is anything else
+  else {
+    display.print(decades[t.tm_min/10]);
+  }
+
+  // for all minutes not 10, 11, 12 we need a second line
+  if (t.tm_min < 10 || t.tm_min > 12) {
+    display.setCursor(8, 136);
+
+    // teens
+    if (t.tm_min < 20 && t.tm_min > 12) {
+      display.print(teenstwo[t.tm_min-10]);
+    }
+
+    // all other numbers
+    else {
+      display.print(smallNumbers[t.tm_min%10]);
+    }
+  }
 
   // date
   display.setCursor(0, 195);
