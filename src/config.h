@@ -29,11 +29,11 @@ constexpr const char * WIFI_AP_SSID = "Watchy AP";
 //set time
 const int YEAR_OFFSET = 1970;
 constexpr const char *NTP_SERVER = "pool.ntp.org";
-constexpr const char *DEFAULT_TIMEZONE = "AEST-10AEDT,M10.1.0,M4.1.0/3"; // posix format
+constexpr const char *DEFAULT_TIMEZONE = "PST8PDT,M3.2.0/2:00:00,M11.1.0/2:00:00"; // posix format
 
 //BLE OTA
 constexpr const char * BLE_DEVICE_NAME = "Watchy BLE OTA";
-constexpr const char * WATCHFACE_NAME = "Watchy 7 Segment";
+constexpr const char * WATCHFACE_NAME = "Watchy custom";
 const int SOFTWARE_VERSION_MAJOR = 1;
 const int SOFTWARE_VERSION_MINOR = 0;
 const int SOFTWARE_VERSION_PATCH = 0;
