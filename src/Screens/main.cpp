@@ -1,8 +1,6 @@
-#include "BuzzScreen.h"
 #include "CarouselScreen.h"
 #include "Events.h"
 #include "GetLocation.h"
-#include "GetWeatherScreen.h"
 #include "IconScreen.h"
 #include "ImageScreen.h"
 #include "MenuScreen.h"
@@ -12,9 +10,6 @@
 #include "SetTimeScreen.h"
 #include "SetupWifiScreen.h"
 #include "ShowBatteryScreen.h"
-#include "ShowBluetoothScreen.h"
-#include "ShowOrientationScreen.h"
-#include "ShowStepsScreen.h"
 #include "ShowWifiScreen.h"
 #include "SyncTime.h"
 #include "SyncTimeScreen.h"
@@ -22,8 +17,6 @@
 #include "UpdateFWScreen.h"
 #include "Watchy.h"
 #include "WatchyErrors.h"
-#include "WeatherScreen.h"
-#include "WrappedTextScreen.h"
 #include "icons.h"
 
 #include <time.h>
@@ -33,8 +26,6 @@ SetupWifiScreen setupWifiScreen;
 UpdateFWScreen updateFWScreen;
 SyncTimeScreen syncTimeScreen;
 SetLocationScreen setLocationScreen;
-GetWeatherScreen getWeatherScreen;
-BuzzScreen buzzScreen;
 OTAScreen otaScreen;
 
 MenuItem menuItems[] = {{"Set Time", &setTimeScreen},
@@ -42,44 +33,19 @@ MenuItem menuItems[] = {{"Set Time", &setTimeScreen},
                         {"Update (OTA)", &otaScreen},
                         {"Update (BLE)", &updateFWScreen},
                         {"Sync Time", &syncTimeScreen},
-                        {"Set Location", &setLocationScreen},
-                        {"Get Weather", &getWeatherScreen},
-                        {"Buzz", &buzzScreen}};
+                        {"Set Location", &setLocationScreen}};
 
 MenuScreen menu(menuItems, sizeof(menuItems) / sizeof(menuItems[0]));
 
 TimeScreen timeScreen;
-WeatherScreen weatherScreen;
 IconScreen battery(&rle_battery, "battery", OptimaLTStd22pt7b);
-IconScreen steps(&rle_steps, "steps", OptimaLTStd22pt7b);
-IconScreen orientation(&rle_orientation, "orientation", OptimaLTStd22pt7b);
-IconScreen bluetooth(&rle_bluetooth, "bluetooth", OptimaLTStd22pt7b);
 IconScreen wifi(&rle_wifi, "wifi", OptimaLTStd22pt7b);
 IconScreen settings(&rle_settings, "settings", OptimaLTStd22pt7b);
-IconScreen text(&rle_text, "wrap text", OptimaLTStd22pt7b);
-ImageScreen weather(cloud, 96, 96, "weather", OptimaLTStd22pt7b);
 ShowBatteryScreen showBattery;
-ShowBluetoothScreen showBluetooth;
-ShowOrientationScreen showOrientation;
-ShowStepsScreen showSteps;
 ShowWifiScreen showWifi;
-WrappedTextScreen wrappedTextScreen(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "
-    "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "
-    "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea "
-    "commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
-    "velit esse cillum dolore eu fugiat nulla pariatur.",
-    "n0-=-5p4c35,.,withaverylongwordthatshouldbehardwrapped?\n\nnotice how "
-    "it goes away on screen refresh?        \t    \t         \r                "
-    "      \n     that's deep sleep.");
 
 CarouselItem carouselItems[] = {{&timeScreen, nullptr},
-                                {&weather, &weatherScreen},
                                 {&battery, &showBattery},
-                                {&steps, &showSteps},
-                                {&orientation, &showOrientation},
-                                {&text, &wrappedTextScreen},
-                                {&bluetooth, &showBluetooth},
                                 {&wifi, &showWifi},
                                 {&settings, &menu}};
 
