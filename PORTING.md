@@ -23,6 +23,12 @@ board = pico32
 framework = arduino
 ```
 
+We want as much memory as possible for our app don't use much SPIFFS so add
+
+``` ini
+board_build.partitions = min_spiffs.csv
+```
+
 I suggest updating the serial speeds for faster uploading and faster monitoring. Add the following two lines:
 
 ``` ini
@@ -30,7 +36,7 @@ monitor_speed = 115200
 upload_speed = 921600
 ```
 
-You'll need to add the libraries we depend on. You can use the PIO library manager, but two of them are custom so you'll have to edit `platformio.ini` by hand to add them so I just add them all by adding
+You'll need to add the libraries we depend on. You can use the PIO library manager, but Watchy-Screen is custom and you'll have to edit `platformio.ini` by hand to add it so I just add them all by adding
 
 ``` ini
 lib_deps =
@@ -81,7 +87,7 @@ void loop() {}
 
 ### `Watchy_7_SEG.h`
 
-Instead a subclass of the `Watchy` class, it should be a subclass of `Screen`. Import `"Screen.h"` instead of `<Watchy.h>` and change `class Watchy7SEG : public Watchy{` to `class Watchy7SEG : public Screen {` (chabge `Watchy` to `Screen`) and change `void drawWatchFace();` to `void show() override;` (change your `drawWatchFace` method to a `show` method). That's it for the header file.
+Instead a subclass of the `Watchy` class, it should be a subclass of `Screen`. Import `"Screen.h"` instead of `<Watchy.h>` and change `class Watchy7SEG : public Watchy{` to `class Watchy7SEG : public Screen {` (change `Watchy` to `Screen`) and change `void drawWatchFace();` to `void show() override;` (change your `drawWatchFace` method to a `show` method). That's it for the header file.
 
 ### `Watchy_7_SEG.cpp`
 
@@ -91,11 +97,11 @@ Add a `using namespace Watchy;` right after the includes. This is bad style, but
 
 Change `drawWatchFace` to `show`
 
-That only leaves weather. `Watchy-Screens` breaks weather out into its own file. So add `#include <GetWeather.h>` to your includes, add a `using namespace Watchy_GetWeather;` after your includes (we'll fix that in a minute) and change `getWeatherData` to `getWeather` - Watchy Screen changed the name.
+That only leaves weather. `Watchy-Screens` moves weather into its own file. So add `#include <GetWeather.h>` to your includes, add a `using namespace Watchy_GetWeather;` after your includes (we'll fix that too in a minute) and change `getWeatherData` to `getWeather` - Watchy Screen changed the name.
 
 ### That's it! Almost.
 
 That's the minimal code changes. You should be able to build and upload the watch face, and it should display properly.
-But `using namespace Blah;` is bad coding practice. So we should clean that up. delete the line `using namespace Watchy_GetWeather;` and rebuild. You should see three complaints about names `not declared in this scope` add `Watchy_GetWeather::` to all of them. Next do the same thing with `using namespace Watchy;` This time there will be quite a few more errors. Most of them related to `display` and `currentTime` - add `Watchy::` to all of them.
+But `using namespace Blah;` is bad coding practice. So we will clean that up. Delete the line `using namespace Watchy_GetWeather;` and rebuild. You should see three complaints about names `not declared in this scope` add `Watchy_GetWeather::` to all of them. Next do the same thing with `using namespace Watchy;` This time there will be quite a few more errors. Most of them related to `display` and `currentTime` - add `Watchy::` to all of them.
 
 Done.

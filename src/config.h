@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef TAG
+#define TAG "Watchy"
+#endif
+
 //pins
 #define SDA 21
 #define SCL 22
@@ -41,14 +45,3 @@ const int HARDWARE_VERSION_MAJOR = 1;
 const int HARDWARE_VERSION_MINOR = 0;
 
 #include "wifi_config.h"
-
-// debugging macros defined in DEBUG releases
-#ifdef DEBUG
-#define LOGE(...) ESP_LOGE(TAG, __VA_ARGS__)
-#define LOGI(...) ESP_LOGI(TAG, __VA_ARGS__)
-#define LOGD(...) ESP_LOGD(TAG, __VA_ARGS__)
-#else
-#define LOGE(...)
-#define LOGI(...)
-#define LOGD(...)
-#endif

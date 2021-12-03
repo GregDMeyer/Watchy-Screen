@@ -13,6 +13,6 @@ typedef struct {
 extern location currentLocation;
 extern time_t lastGetLocationTS; // timestamp of last successful getLocation
 
-// returns nullptr on failure
-extern const location* getLocation();
+// sends update event on success
+void getLocation();
 }  // namespace Watchy_GetLocation

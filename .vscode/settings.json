@@ -25,5 +25,6 @@
     "C_Cpp.default.browse.path": [
         "C:/Users/haynes/Documents/PlatformIO/Projects/newlib-esp32/newlib/libc/include",
         "C:/Users/haynes/Documents/PlatformIO/Projects/newlib-esp32/newlib/libc/sys"
-    ]
+    ],
+    "python.pythonPath": "python"
 }

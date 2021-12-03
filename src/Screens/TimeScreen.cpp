@@ -28,6 +28,7 @@ const char *teenstwo [] =
    "teen", "teen", "teen", "teen", "teen"};
 
 void TimeScreen::show() {
+  Watchy_Event::setUpdateInterval(SECS_PER_MIN*1000);
   tm t;
   time_t tt = now();
   localtime_r(&tt, &t);
@@ -80,4 +81,5 @@ void TimeScreen::show() {
   display.setCursor(0, 195);
   display.setFont(OptimaLTStd7pt7b);
   display.print(&t, "%a, %B %d %Y %Z");
+  loop(); // TESTING
 }
