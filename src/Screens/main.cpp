@@ -14,6 +14,7 @@
 #include "SyncTime.h"
 #include "SyncTimeScreen.h"
 #include "TimeScreen.h"
+#include "MoonScreen.h"
 #include "UpdateFWScreen.h"
 #include "Watchy.h"
 #include "WatchyErrors.h"
@@ -38,6 +39,7 @@ MenuItem menuItems[] = {{"Set Time", &setTimeScreen},
 MenuScreen menu(menuItems, sizeof(menuItems) / sizeof(menuItems[0]));
 
 TimeScreen timeScreen;
+MoonScreen moonScreen;
 IconScreen battery(&rle_battery, "battery", OptimaLTStd22pt7b);
 IconScreen wifi(&rle_wifi, "wifi", OptimaLTStd22pt7b);
 IconScreen settings(&rle_settings, "settings", OptimaLTStd22pt7b);
@@ -45,6 +47,7 @@ ShowBatteryScreen showBattery;
 ShowWifiScreen showWifi;
 
 CarouselItem carouselItems[] = {{&timeScreen, nullptr},
+				{&moonScreen, nullptr},
                                 {&battery, &showBattery},
                                 {&wifi, &showWifi},
                                 {&settings, &menu}};

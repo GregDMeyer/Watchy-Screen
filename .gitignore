@@ -1,6 +1,9 @@
 # don't check in credentials
 wifi_config.h
 
+# backup files
+*~
+
 app
 /app
 build
