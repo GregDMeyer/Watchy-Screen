@@ -81,5 +81,5 @@ void TimeScreen::show() {
   display.setCursor(0, 195);
   display.setFont(OptimaLTStd7pt7b);
   display.print(&t, "%a, %B %d %Y %Z");
-  loop(); // TESTING
+  //loop(); // TESTING
 }

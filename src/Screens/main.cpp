@@ -15,6 +15,7 @@
 #include "SyncTimeScreen.h"
 #include "TimeScreen.h"
 #include "MoonScreen.h"
+#include "BreakScreen.h"
 #include "UpdateFWScreen.h"
 #include "Watchy.h"
 #include "WatchyErrors.h"
@@ -40,6 +41,7 @@ MenuScreen menu(menuItems, sizeof(menuItems) / sizeof(menuItems[0]));
 
 TimeScreen timeScreen;
 MoonScreen moonScreen;
+BreakScreen breakScreen;
 IconScreen battery(&rle_battery, "battery", OptimaLTStd22pt7b);
 IconScreen wifi(&rle_wifi, "wifi", OptimaLTStd22pt7b);
 IconScreen settings(&rle_settings, "settings", OptimaLTStd22pt7b);
@@ -48,6 +50,7 @@ ShowWifiScreen showWifi;
 
 CarouselItem carouselItems[] = {{&timeScreen, nullptr},
 				{&moonScreen, nullptr},
+				{&breakScreen, nullptr}, // TODO: add icon for this one
                                 {&battery, &showBattery},
                                 {&wifi, &showWifi},
                                 {&settings, &menu}};
