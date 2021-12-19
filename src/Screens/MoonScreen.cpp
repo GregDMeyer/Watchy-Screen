@@ -51,15 +51,15 @@ void MoonScreen::show() {
     end = 1;
   } else {
     start = 1;
-    end = cos(M_PI*(2-2*phase));
+    end = cos(M_PI*(-1+2*phase));
   }
 
   display.drawCircle(100, MOON_Y, MOON_RADIUS, GxEPD_WHITE);
   for (int y=0; y<MOON_RADIUS; ++y) {
     int x = sqrt(MOON_RADIUS*MOON_RADIUS-y*y);
-    display.drawLine(100-(start*x), MOON_Y+y, 100+int(end*x), MOON_Y+y, GxEPD_WHITE);
+    display.drawLine(100-int(start*x), MOON_Y+y, 100+int(end*x), MOON_Y+y, GxEPD_WHITE);
     if (y>0) {
-      display.drawLine(100-(start*x), MOON_Y-y, 100+int(end*x), MOON_Y-y, GxEPD_WHITE);
+      display.drawLine(100-int(start*x), MOON_Y-y, 100+int(end*x), MOON_Y-y, GxEPD_WHITE);
     }
   }
 
