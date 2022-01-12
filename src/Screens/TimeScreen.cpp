@@ -28,7 +28,7 @@ const char *teenstwo [] =
    "teen", "teen", "teen", "teen", "teen"};
 
 void TimeScreen::show() {
-  Watchy_Event::setUpdateInterval(SECS_PER_MIN*1000);
+  Watchy_Event::setUpdateInterval(SECS_PER_MIN);
   tm t;
   time_t tt = now();
   localtime_r(&tt, &t);
