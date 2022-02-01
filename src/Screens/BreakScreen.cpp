@@ -19,7 +19,7 @@ RTC_DATA_ATTR int end_time = 0;
 RTC_DATA_ATTR bool in_break = false;
 
 void BreakScreen::show() {
-  Watchy_Event::setUpdateInterval(SECS_PER_MIN);
+  Watchy_Event::setUpdateInterval(SECS_PER_MIN*1000);
   tm t;
   time_t tt = now();
   localtime_r(&tt, &t);
