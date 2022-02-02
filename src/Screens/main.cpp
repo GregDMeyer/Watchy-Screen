@@ -41,6 +41,7 @@ MenuScreen menu(menuItems, sizeof(menuItems) / sizeof(menuItems[0]));
 
 TimeScreen timeScreen;
 MoonScreen moonScreen;
+IconScreen break_timer(&rle_tomato, "pomodoro", OptimaLTStd22pt7b);
 BreakScreen breakScreen;
 IconScreen battery(&rle_battery, "battery", OptimaLTStd22pt7b);
 IconScreen wifi(&rle_wifi, "wifi", OptimaLTStd22pt7b);
@@ -50,7 +51,7 @@ ShowWifiScreen showWifi;
 
 CarouselItem carouselItems[] = {{&timeScreen, nullptr},
 				{&moonScreen, nullptr},
-				{&breakScreen, nullptr}, // TODO: add icon for this one
+				{&break_timer, &breakScreen},
                                 {&battery, &showBattery},
                                 {&wifi, &showWifi},
                                 {&settings, &menu}};

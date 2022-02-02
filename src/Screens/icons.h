@@ -9,3 +9,4 @@ extern const rle rle_steps;
 extern const rle rle_wifi;
 extern const uint8_t cloud[];
 extern const rle rle_text;
+extern const rle rle_tomato;
