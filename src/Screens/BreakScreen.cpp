@@ -15,6 +15,7 @@ using namespace Watchy;
 #define WORK_MIN 25
 #define BREAK_MIN 5
 
+RTC_DATA_ATTR int last_time = 0;
 RTC_DATA_ATTR int end_time = 0;
 RTC_DATA_ATTR bool in_break = false;
 
@@ -26,30 +27,14 @@ void BreakScreen::show() {
 
   display.fillScreen(bgColor);
 
-  if (end_time == 0 || end_time < now()) {
+  // this means we just switched to the screen and need to reset
+  if (end_time == 0 || end_time < now() || now() - last_time > 65) {
     end_time = now() + WORK_MIN*60 + 30;
+    in_break = false;
   }
+  last_time = now();
 
-  // extra 30 is to round not truncate
   int mins_left = (end_time - now())/60;
-
-  // hours
-  display.setFont(&NunitoSans_Light28pt7b);
-  display.setCursor(8, 42);
-  display.print(mins_left);
-  display.print(" min");
-
-  display.setCursor(8, 89);
-  if (in_break) {
-    display.print("break");
-  } else {
-    display.print("left");
-  }
-
-  // print time
-  display.setFont(&NunitoSans_Bold28pt7b);
-  display.setCursor(20, 160);
-  display.print(&t, "%H:%M"); // TODO: add AM/PM?
 
   // vibrate if time's up
   if (mins_left <= 0) {
@@ -74,4 +59,35 @@ void BreakScreen::show() {
       delay(600);
     }
   }
+
+  mins_left = (end_time - now())/60;
+
+  // hours
+  display.setFont(&NunitoSans_Light28pt7b);
+  display.setCursor(8, 42);
+  display.print(mins_left);
+  display.print(" min");
+
+  display.setCursor(8, 89);
+  if (in_break) {
+    display.print("break");
+  } else {
+    display.print("left");
+  }
+
+  // print time
+  int display_hr = t.tm_hour;
+  display_hr = ((display_hr-1)%12)+1; // 12 hr
+
+  // sketchy manual centering
+  display.setFont(&NunitoSans_Bold28pt7b);
+
+  if (display_hr < 10) {
+    display.setCursor(40, 160);
+  } else {
+    display.setCursor(20, 160);
+  }
+  display.print(display_hr);
+  display.print(&t, ":%M");
+
 }
